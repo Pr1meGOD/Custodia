@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Digital Evidence Management System — Police Officer & Admin Dashboard for uploading tamper-proof evidence to blockchain.">
+  <title>Evidence Management — Officer Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══ Navbar ═══════════════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <a class="navbar-brand" href="index.html">
+      <div class="logo-icon">🛡️</div>
+      <div>
+        <h1>Evidence Chain</h1>
+        <span>Blockchain Evidence Manager</span>
+      </div>
+    </a>
+
+    <ul class="navbar-nav">
+      <li><a href="index.html" class="nav-link active">Officer Dashboard</a></li>
+      <li><a href="court.html" class="nav-link">Court Verification</a></li>
+    </ul>
+
+    <div class="navbar-right">
+      <span id="roleBadge" class="role-badge role-none hidden">—</span>
+      <span id="walletAddr" class="wallet-address hidden"></span>
+      <button id="btnConnect" class="btn-connect" onclick="connectWallet()">
+        <span>🦊</span>
+        <span class="btn-label">Connect Wallet</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══ Main Content ═════════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <h2 class="page-title">Officer Dashboard</h2>
+    <p class="page-subtitle">Manage roles & upload tamper-proof digital evidence to the blockchain</p>
+
+    <!-- ── Admin Panel ──────────────────────────────────────────────── -->
+    <section id="adminPanel" class="card section-gap hidden animate-fadeIn">
+      <div class="card-header">
+        <h2><span class="icon">👑</span> Admin — Role Management</h2>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="roleAddress">Wallet Address</label>
+            <input type="text" id="roleAddress" class="form-control form-control-mono" placeholder="0x…">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="roleSelect">Role</label>
+            <select id="roleSelect" class="form-control">
+              <option value="1">🚔 Police</option>
+              <option value="2">⚖️ Court</option>
+            </select>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="assignRole()">✓ Assign Role</button>
+          <button class="btn btn-danger" onclick="revokeRole()">✕ Revoke Role</button>
+        </div>
+
+        <div id="adminStatus" class="status-bar"></div>
+      </div>
+    </section>
+
+    <!-- ── Upload Panel ─────────────────────────────────────────────── -->
+    <section id="uploadPanel" class="card section-gap hidden animate-fadeIn">
+      <div class="card-header">
+        <h2><span class="icon">📤</span> Upload Evidence</h2>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="caseId">Case ID</label>
+            <input type="number" id="caseId" class="form-control" placeholder="e.g. 10042" min="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="description">Description</label>
+            <input type="text" id="description" class="form-control" placeholder="e.g. CCTV footage from crime scene">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Evidence File</label>
+          <div id="dropZone" class="file-drop-zone" onclick="document.getElementById('fileInput').click()">
+            <div class="drop-icon">📁</div>
+            <div class="drop-text">Click or drag &amp; drop to select a file</div>
+            <div id="fileName" class="file-name hidden"></div>
+          </div>
+          <input type="file" id="fileInput" class="file-input-hidden" onchange="handleFileSelect(event)">
+        </div>
+
+        <button id="btnUpload" class="btn btn-success" onclick="uploadEvidence()" disabled>
+          🚀 Upload to Blockchain
+        </button>
+
+        <!-- Progress steps -->
+        <div id="uploadProgress" class="upload-progress hidden">
+          <div id="step1" class="progress-step">
+            <div class="step-icon pending">1</div>
+            <span>Computing SHA-256 hash of file…</span>
+          </div>
+          <div id="step2" class="progress-step">
+            <div class="step-icon pending">2</div>
+            <span>Uploading file to IPFS via Pinata…</span>
+          </div>
+          <div id="step3" class="progress-step">
+            <div class="step-icon pending">3</div>
+            <span>Writing evidence record to blockchain…</span>
+          </div>
+          <div id="step4" class="progress-step">
+            <div class="step-icon pending">4</div>
+            <span>Confirmed on-chain ✓</span>
+          </div>
+        </div>
+
+        <div id="uploadStatus" class="status-bar"></div>
+      </div>
+    </section>
+
+    <!-- ── Evidence Table ───────────────────────────────────────────── -->
+    <section class="card animate-fadeIn">
+      <div class="card-header">
+        <h2><span class="icon">📋</span> Evidence Records</h2>
+        <button class="btn btn-secondary btn-sm" onclick="loadEvidences()">🔄 Refresh</button>
+      </div>
+      <div class="card-body" style="padding: 0;">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Case ID</th>
+                <th>Description</th>
+                <th>IPFS CID</th>
+                <th>Uploader</th>
+                <th>Timestamp</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="evidenceTableBody">
+              <tr>
+                <td colspan="8">
+                  <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <p>Connect your wallet to view evidence records</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ Footer ═══════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    Evidence Chain — Blockchain-based Evidence Management System &copy; 2026
+  </footer>
+
+  <!-- ═══ Toast Container ══════════════════════════════════════════════ -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- ═══ Scripts ══════════════════════════════════════════════════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.4/dist/web3.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

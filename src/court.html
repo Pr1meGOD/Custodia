@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Digital Evidence Management System — Court Verification Dashboard for cryptographic evidence integrity checks.">
+  <title>Evidence Management — Court Verification</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══ Navbar ═══════════════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <a class="navbar-brand" href="index.html">
+      <div class="logo-icon">🛡️</div>
+      <div>
+        <h1>Evidence Chain</h1>
+        <span>Blockchain Evidence Manager</span>
+      </div>
+    </a>
+
+    <ul class="navbar-nav">
+      <li><a href="index.html" class="nav-link">Officer Dashboard</a></li>
+      <li><a href="court.html" class="nav-link active">Court Verification</a></li>
+    </ul>
+
+    <div class="navbar-right">
+      <span id="roleBadge" class="role-badge role-none hidden">—</span>
+      <span id="walletAddr" class="wallet-address hidden"></span>
+      <button id="btnConnect" class="btn-connect" onclick="connectWallet()">
+        <span>🦊</span>
+        <span class="btn-label">Connect Wallet</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══ Main Content ═════════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <h2 class="page-title">Court Verification Dashboard</h2>
+    <p class="page-subtitle">Cryptographically verify evidence integrity — compare on-chain SHA-256 hash against re-computed file hash</p>
+
+    <!-- ── Evidence Table with Verify ───────────────────────────────── -->
+    <section class="card animate-fadeIn">
+      <div class="card-header">
+        <h2><span class="icon">⚖️</span> Evidence Records</h2>
+        <button class="btn btn-secondary btn-sm" onclick="loadEvidences()">🔄 Refresh</button>
+      </div>
+      <div class="card-body" style="padding: 0;">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Case ID</th>
+                <th>Description</th>
+                <th>IPFS CID</th>
+                <th>Uploader</th>
+                <th>Timestamp</th>
+                <th>Status</th>
+                <th>Integrity</th>
+                <th>Update Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="evidenceTableBody">
+              <tr>
+                <td colspan="10">
+                  <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <p>Connect your wallet to view and verify evidence records</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ Footer ═══════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    Evidence Chain — Blockchain-based Evidence Management System &copy; 2026
+  </footer>
+
+  <!-- ═══ Toast Container ══════════════════════════════════════════════ -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- ═══ Scripts ══════════════════════════════════════════════════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.4/dist/web3.min.js"></script>
+  <script src="config.js"></script>
+  <script src="court.js"></script>
+
+</body>
+</html>

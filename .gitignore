@@ -1,0 +1,50 @@
+# ── Dependencies ───────────────────────────────────────────────
+node_modules/
+
+# ── Build / compiled output ────────────────────────────────────
+build/
+dist/
+custodia/dist/
+
+# ── Environment variables ──────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Logs ───────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── OS files ───────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Editor / IDE ───────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ── Truffle ────────────────────────────────────────────────────
+.truffle/
+
+# ── AI model cache (HuggingFace / ONNX / @xenova/transformers) ─
+.cache/
+models/
+*.onnx
+server/.cache/
+server/models/
+
+# ── Uploads & temp files ───────────────────────────────────────
+uploads/
+tmp/
+*.tmp
+
+src/config.js
+custodia/src/config.js

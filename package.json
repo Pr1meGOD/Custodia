@@ -1,0 +1,23 @@
+{
+  "name": "evidence-management-system",
+  "version": "1.0.0",
+  "description": "Blockchain-based Digital Evidence Management System using Ethereum, IPFS, and Pinata",
+  "scripts": {
+    "compile": "truffle compile",
+    "migrate": "truffle migrate --reset",
+    "deploy": "truffle compile && truffle migrate --reset && node scripts/sync-config.js",
+    "sync-config": "node scripts/sync-config.js",
+    "serve": "npx -y http-server src -p 8080 -c-1 --cors",
+    "test": "truffle test"
+  },
+  "devDependencies": {
+    "truffle": "^5.11.5"
+  },
+  "keywords": ["blockchain", "evidence", "ethereum", "ipfs", "pinata", "truffle", "solidity", "react", "deepfake-detection"],
+  "author": "Atharva Palande, Krish Pitrola",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/<your-username>/evidence-management-system.git"
+  }
+}
