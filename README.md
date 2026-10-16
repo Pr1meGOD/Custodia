@@ -223,8 +223,8 @@ evidence-management-system/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/evidence-management-system.git
-cd evidence-management-system
+git clone https://github.com/Pr1meGOD/Custodia.git
+cd Custodia
 ```
 
 ### 2. Install dependencies
@@ -280,9 +280,16 @@ cp custodia/.env.example custodia/.env
 # Edit custodia/.env — set VITE_PINATA_API_KEY and VITE_PINATA_SECRET_API_KEY
 ```
 
-> **Also update `src/config.js` and `custodia/src/config.js`** with your Pinata API key and secret (the `sync-config` script preserves these fields).
+### 7. Copy config.example.js to config.js
 
-### 7. Start the deepfake detection server (port 4000)
+Copy config.example.js to config.js (in both src/ and custodia/src/) and fill in your Pinata keys and contract address. Never commit config.js or .env.
+
+```bash
+cp src/config.example.js src/config.js
+cp custodia/src/config.example.js custodia/src/config.js
+```
+
+### 8. Start the deepfake detection server (port 4000)
 
 ```bash
 cd server
@@ -292,7 +299,7 @@ cd ..
 
 The server downloads the ONNX model on first run (~100 MB). Subsequent starts are instant.
 
-### 8. Start the React frontend (port 5173)
+### 9. Start the React frontend (port 5173)
 
 ```bash
 cd custodia
@@ -301,7 +308,7 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-### 9. Configure MetaMask
+### 10. Configure MetaMask
 
 1. **Add network:**
    - Network Name: `Ganache Local`
